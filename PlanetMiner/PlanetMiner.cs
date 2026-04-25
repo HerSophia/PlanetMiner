@@ -15,7 +15,7 @@ namespace PlanetMiner
         public const float DefaultMaxPlanetRadius = 100f;
         public const int uesEnergy = 20000000;
 
-        private static volatile bool _enablePlanetRadiusLimit = true;
+        private static volatile bool _enablePlanetRadiusLimit = false;
         private static volatile float _maxPlanetRadius = DefaultMaxPlanetRadius;
 
         private ConfigEntry<bool> _enablePlanetRadiusLimitConfig;
@@ -375,7 +375,7 @@ namespace PlanetMiner
             _enablePlanetRadiusLimitConfig = Config.Bind(
                 "Gameplay",
                 "EnablePlanetRadiusLimit",
-                true,
+                false,
                 "Whether PlanetMiner is limited by planet radius.");
 
             _maxPlanetRadiusConfig = Config.Bind(
@@ -398,7 +398,7 @@ namespace PlanetMiner
 
         private void ApplyConfigValues()
         {
-            _enablePlanetRadiusLimit = _enablePlanetRadiusLimitConfig == null || _enablePlanetRadiusLimitConfig.Value;
+            _enablePlanetRadiusLimit = _enablePlanetRadiusLimitConfig != null && _enablePlanetRadiusLimitConfig.Value;
             float configuredRadius = _maxPlanetRadiusConfig?.Value ?? DefaultMaxPlanetRadius;
             _maxPlanetRadius = configuredRadius > 0f ? configuredRadius : DefaultMaxPlanetRadius;
         }
