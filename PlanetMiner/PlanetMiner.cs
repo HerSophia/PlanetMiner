@@ -167,7 +167,12 @@ namespace PlanetMiner
                 return value;
             }
 
-            value = (int)LDB.veins.GetVeinTypeByItemId(itemId) == 7;
+            // Vein type 7 = Oil (vanilla)
+            // Vein type 16 = DeepMagma, 19 = Ice (OrbitalRing-MOD)
+            // These are all rate-based veins (oil-like) whose amount represents
+            // production speed, not a finite stockpile.
+            int veinType = (int)LDB.veins.GetVeinTypeByItemId(itemId);
+            value = veinType == 7 || veinType == 16 || veinType == 19;
             _oilItemCache.TryAdd(itemId, value);
             return value;
         }
